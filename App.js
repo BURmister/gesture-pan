@@ -5,8 +5,25 @@ import { StatusBar } from 'expo-status-bar';
 const CURSOR_SIDE_SIZE = 20;
 const CURSOR_HALF_SIDE_SIZE = CURSOR_SIDE_SIZE / 2;
 
+const _lighSheme = {
+   background: '#fff',
+   font: '#000',
+   ui: 'skyblue',
+};
+
+const _darkSheme = {
+   background: '#000',
+   font: '#fff',
+   ui: 'tomato',
+};
+
+const _colors = (_sheme) => {
+   if (_sheme === 'light') return _lighSheme;
+   else return _darkSheme;
+};
+
 export default function App() {
-   const colorScheme = useColorScheme();
+   const _sheme = useColorScheme();
 
    const { height, width } = useWindowDimensions();
    const touch = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
@@ -20,10 +37,6 @@ export default function App() {
                x: event.nativeEvent.pageX,
                y: event.nativeEvent.pageY,
             });
-            console.log({
-               x: event.nativeEvent.pageX,
-               y: event.nativeEvent.pageY,
-            });
          }}
          onResponderRelease={() => {
             Animated.spring(touch, {
@@ -34,36 +47,19 @@ export default function App() {
                useNativeDriver: false,
             }).start();
          }}
-         style={{ flex: 1 }}>
+         style={{ flex: 1, backgroundColor: _colors(_sheme).background }}>
          <Animated.View
             style={{
                position: 'absolute',
                top: Animated.subtract(touch.y, CURSOR_HALF_SIDE_SIZE),
                left: Animated.subtract(touch.x, CURSOR_HALF_SIDE_SIZE),
-               // top: height / 2 - CURSOR_HALF_SIDE_SIZE,
-               // left: width / 2 - CURSOR_HALF_SIDE_SIZE,
                height: CURSOR_SIDE_SIZE,
                width: CURSOR_SIDE_SIZE,
                borderRadius: CURSOR_HALF_SIDE_SIZE,
-               backgroundColor: 'skyblue',
+               backgroundColor: _colors(_sheme).ui,
             }}
          />
+         <StatusBar style="auto" />
       </View>
    );
 }
-
-{
-   /* <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#fff' : '#000' }]}>
-   <Text style={{ color: colorScheme === 'light' ? '#000' : '#fff' }}>Open up App.js to start working on your app! </Text>
-   <StatusBar style="auto" />
-</View> */
-}
-
-const styles = StyleSheet.create({
-   container: {
-      flex: 1,
-      // backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-   },
-});
