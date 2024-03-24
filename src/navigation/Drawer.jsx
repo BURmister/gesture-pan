@@ -29,6 +29,7 @@ export const DrawerNavigator = () => {
             drawerLabelStyle: {
                fontSize: 24,
             },
+            drawerType: 'slide',
          }}
          drawerContent={(props) => <DrawerContent {...props} />}>
          <Drawer.Screen name="PursuitPoint" component={PursuitPoint} options={{ headerShown: false, title: 'Catching Up Point' }} />
